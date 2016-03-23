@@ -35,6 +35,7 @@ public class RoutingProblem_CPLEX {
         SetParameters();
         SetVariable();
         SetConstraints();
+
         SetObjectiveFuntion();
 
         SolveProblem();
