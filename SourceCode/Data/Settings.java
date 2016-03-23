@@ -16,8 +16,8 @@ public class Settings {
     public final static int MinRideDuration = 120;
 
 
-    public final static int TaxisCount = 3;
-    public final static int OnBoardCount = 1;
+    public final static int TaxisCount = 5;
+    public final static int OnBoardCount = 0;
 
     public final static float DistanceBetweenAdjacentNodes = 1;
 

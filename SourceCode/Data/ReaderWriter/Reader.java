@@ -1,20 +1,9 @@
 package Data.ReaderWriter;
 
-import Data.Link;
+import Data.*;
 import UI.UserInterface;
-import Data.Network;
-import Data.OnBoardPassenger;
-import Data.Passenger;
-import Data.Passenger.PassengerType;
-import Data.Taxi;
 import UI.Utils.OpenGLUtils.Point3D;
 import UI.WaitingWindow;
-import java.io.File;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,18 +12,37 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Reader {
 
     public static final Logger MyLogger = Logger.getLogger(Reader.class.getName());
+    // <editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~ DocumentBuilder Error Handler ~~~~~~~~~~~~~~~ ">
+    public static ErrorHandler DocumentBuilderErrorHandler = new ErrorHandler() {
+        @Override
+        public void warning(SAXParseException exception) throws SAXException {
+        }
+
+        @Override
+        public void error(SAXParseException exception) throws SAXException {
+        }
+
+        @Override
+        public void fatalError(SAXParseException exception) throws SAXException {
+        }
+    };
     public String BasePath;
     public String InputFolder = "Input";
-
     public String NodesFileName = "Nodes.xml";
     public String LinksFileName = "Links.xml";
     public String PassengersFileName = "Passenger.xml";
     public String TaxisFileName = "Taxis.xml";
     public String OnBoardPassengersFileName = "OnBoardPassengers.xml";
-
     public UserInterface UserInterface = null;
 
     //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~       Constuctors       ~~~~~~~~~~~~~~ ">
@@ -51,6 +59,7 @@ public class Reader {
 
         UserInterface = DIRECTView;
     }
+    //</editor-fold>
 
     public Reader(UserInterface DIRECTView, String BasePath) {
         UserInterface = DIRECTView;
@@ -58,22 +67,6 @@ public class Reader {
         InputFolder = String.format("%s\\%s", BasePath, InputFolder);
 
     }
-    //</editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~ DocumentBuilder Error Handler ~~~~~~~~~~~~~~~ ">
-    public static ErrorHandler DocumentBuilderErrorHandler = new ErrorHandler() {
-        @Override
-        public void warning(SAXParseException exception) throws SAXException {
-        }
-
-        @Override
-        public void error(SAXParseException exception) throws SAXException {
-        }
-
-        @Override
-        public void fatalError(SAXParseException exception) throws SAXException {
-        }
-    };
     // </editor-fold>
     //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~        Open XML Document        ~~~~~~~~~~~~~~ ">
 
@@ -230,8 +223,8 @@ public class Reader {
                     double Delta_X = P1.X - P2.X;
                     double Delta_Y = P1.Y - P2.Y;
 
-                    Link.Distance = (float)Math.sqrt(Delta_X * Delta_X + Delta_Y * Delta_Y);
-                    Link.TravelTime = (Link.Distance / Link.CurrentSpeed) * 3600f ;
+                    Link.Length = (float) Math.sqrt(Delta_X * Delta_X + Delta_Y * Delta_Y);
+                    Link.TravelTime = (Link.Length / Link.CurrentSpeed) * 3600f;
                     Link.ID = LinkID;
                     Link.Index = LinkIndex;
 

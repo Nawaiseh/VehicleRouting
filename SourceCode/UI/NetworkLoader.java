@@ -1,24 +1,23 @@
 package UI;
 
-import java.util.Calendar;
-import java.util.Date;
 import Data.Network;
 import Data.Node;
 import Data.Passenger;
 import Data.ReaderWriter.Reader;
-import Data.ReaderWriter.Writer;
 import Data.Route;
-import Engine.NewSolution_CPLEX;
 import Engine.RouteCalculation;
 import Engine.RoutingProblem_CPLEX;
 import Execution.Master;
-import java.util.ArrayList;
 import utils.Sorter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class NetworkLoader extends Thread {
 
-    private Network Network = null;
     private final UserInterface DView;
+    private Network Network = null;
 
     public NetworkLoader(UserInterface newDirectView, Network newTrafficNetwork) {
         this.DView = newDirectView;
@@ -79,7 +78,7 @@ try {
         for (Passenger Passenger : Network.Passengers.values()) {
             try {
                 Route Route = Network.Routes.get(Passenger.Origin).get(Passenger.Destination);
-                Passenger.Revenue = Route.TotalCost;
+                Passenger.Revenue = Route.TotalRevenue;
             } catch (Exception e) {
                 int x=0;
             }

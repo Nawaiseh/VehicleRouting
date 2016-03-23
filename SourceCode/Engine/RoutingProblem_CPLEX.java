@@ -1,21 +1,22 @@
 package Engine;
 
-import Data.Link;
-import Data.Network;
-import Data.Node;
-import Data.OnBoardPassenger;
-import Data.Passenger;
-import Data.Route;
-import Data.Taxi;
-import ilog.concert.*;
-import ilog.cplex.*;
-import static ilog.cplex.IloCplex.DoubleParam.EpGap;
+import Data.*;
+import ilog.concert.IloException;
+import ilog.concert.IloLinearNumExpr;
+import ilog.concert.IloNumVar;
+import ilog.concert.IloNumVarType;
+import ilog.cplex.CpxNumVar;
+import ilog.cplex.IloCplex;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static ilog.cplex.IloCplex.DoubleParam.EpGap;
 
 public class RoutingProblem_CPLEX {
 
     private final Network Network;
+    private final int LARGE_NUMBER = 9999999;
     public IloCplex CPLEX;
     public double[] R;
     public double[][] C;
@@ -28,6 +29,11 @@ public class RoutingProblem_CPLEX {
     public IloNumVar[][][] y;
     public IloNumVar[][] d;
     public IloNumVar[][] u;
+    public int[][][][] X_Value;
+    public int[][][] Y_Value;
+    public int[][] D_Value;
+    public int[][] U_Value;
+    private int VariableIndex = 0;
 
     public RoutingProblem_CPLEX(Network Network) {
         this.Network = Network;
@@ -37,7 +43,9 @@ public class RoutingProblem_CPLEX {
         SetConstraints();
         SetObjectiveFuntion();
 
-        SolveProblem();
+        if (SolveProblem()) {
+            ExtractResults();
+        }
 
     }
 
@@ -87,7 +95,7 @@ public class RoutingProblem_CPLEX {
                 }
                 Route = Network.Routes.get(Origin).get(Destination);
                 try {
-                    C[OriginIndex][DestinationIndex] = Route.TotalCost;
+                    C[OriginIndex][DestinationIndex] = Route.TotalOperationCost;
                 } catch (Exception e) {
 
                 }
@@ -149,6 +157,8 @@ public class RoutingProblem_CPLEX {
             UP[p] = Network.Passengers_SortedByIndex.get(p).RideDuration;
         }
     }
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~~~~~~~~~~~~  Creating Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~ ">
 
     private void SetParameters() { // Constants
         Create_R_Parameter();
@@ -160,8 +170,6 @@ public class RoutingProblem_CPLEX {
         Create_UP_Parameter();
 
     }
-    //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~~~~~~~~~~~~  Creating Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~ ">
 
     private void Create_x_Variable() {
         int NodesCount = Network.Nodes.size();
@@ -169,7 +177,7 @@ public class RoutingProblem_CPLEX {
         int TaxisCount = Network.Taxis.size();
 
         x = new IloNumVar[PassengersCount][TaxisCount][NodesCount][NodesCount];
-
+        X_Value = new int[PassengersCount][TaxisCount][NodesCount][NodesCount];
         for (int p = 0; p < PassengersCount; p++) {
             for (int t = 0; t < TaxisCount; t++) {
                 for (int i = 0; i < NodesCount; i++) {
@@ -183,6 +191,11 @@ public class RoutingProblem_CPLEX {
 ////                                x[PassengerIndex][TaxiIndex][i][j] = 0;
 //                            } else {
                             x[p][t][i][j] = CPLEX.numVar(LowerBound, UpperBound, IloNumVarType.Int, Name);
+
+                            ((CpxNumVar) x[p][t][i][j]).setExtractableName(Name);
+
+
+                            // x[p][t][i][j].   VariableIndex++;
                         } catch (IloException ex) {
                             Logger.getLogger(RoutingProblem_CPLEX.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -197,7 +210,7 @@ public class RoutingProblem_CPLEX {
         int TaxisCount = Network.Taxis.size();
 
         y = new IloNumVar[TaxisCount][NodesCount][NodesCount];
-
+        Y_Value = new int[TaxisCount][NodesCount][NodesCount];
         for (int t = 0; t < TaxisCount; t++) {
             for (int i = 0; i < NodesCount; i++) {
                 for (int j = 0; j < NodesCount; j++) {
@@ -221,9 +234,10 @@ public class RoutingProblem_CPLEX {
     private void Create_d_Variable() {
         int TaxisCount = Network.Taxis.size();
         int PassengersCount = Network.Passengers.size();
-
+        Long[] PassengerIDs = Network.Passengers.keySet().toArray(new Long[PassengersCount]);
+        Long[] TaxiIDs = Network.Taxis.keySet().toArray(new Long[PassengersCount]);
         d = new IloNumVar[PassengersCount][TaxisCount];
-
+        D_Value = new int[PassengersCount][TaxisCount];
         for (int p = 0; p < PassengersCount; p++) {
             for (int t = 0; t < TaxisCount; t++) {
                 String Name = String.format("d(P%d)(t%d)", p, t);
@@ -232,7 +246,18 @@ public class RoutingProblem_CPLEX {
                 double UpperBound = 1;
 
                 try {
-                    d[p][t] = CPLEX.numVar(LowerBound, UpperBound, IloNumVarType.Int, Name);
+
+
+                    if (Network.OnBoardPassengers_SortedByPassengerID.containsKey(PassengerIDs[p])) {
+                        OnBoardPassenger OnBoardPassenger = Network.OnBoardPassengers_SortedByPassengerID.get(PassengerIDs[p]);
+                        if (OnBoardPassenger.TaxiID == TaxiIDs[t]) {
+                            d[p][t] = CPLEX.numVar(UpperBound, UpperBound, IloNumVarType.Int, Name);
+                        } else {
+                            d[p][t] = CPLEX.numVar(LowerBound, LowerBound, IloNumVarType.Int, Name);
+                        }
+                    } else {
+                        d[p][t] = CPLEX.numVar(LowerBound, UpperBound, IloNumVarType.Int, Name);
+                    }
 
                 } catch (IloException ex) {
                     Logger.getLogger(RoutingProblem_CPLEX.class
@@ -248,7 +273,7 @@ public class RoutingProblem_CPLEX {
         int NodesCount = Network.Nodes.size();
 
         u = new IloNumVar[NodesCount][TaxisCount];
-
+        U_Value = new int[NodesCount][TaxisCount];
         for (int i = 0; i < NodesCount; i++) {
             for (int t = 0; t < TaxisCount; t++) {
                 String Name = String.format("u(i%d)(t%d)", i, t);
@@ -500,10 +525,11 @@ public class RoutingProblem_CPLEX {
     private void SetConstraintSet_08() {
         try {
 
-            IloLinearNumExpr ConstraintExpr = CPLEX.linearNumExpr();
+
             double Multiplier = 1;
             Long[] PassengerIDs = Network.SeekerPassengers.keySet().toArray(new Long[Network.SeekerPassengers.size()]);
             for (int PassengerIndex = 0; PassengerIndex < Network.SeekerPassengers.size(); PassengerIndex++) {
+                IloLinearNumExpr ConstraintExpr = CPLEX.linearNumExpr();
                 Passenger Passenger = Network.Passengers.get(PassengerIDs[PassengerIndex]);
                 for (int TaxiIndex = 0; TaxiIndex < Network.Taxis.size(); TaxiIndex++) {
                     IloNumVar Term = d[Passenger.Index][TaxiIndex];
@@ -519,8 +545,8 @@ public class RoutingProblem_CPLEX {
 
     private void SetConstraintSet_09() {
         try {
-            
-            
+
+
             //ConstraintSet_9(t0)(i4)#256:    y(t0)(i1)(j4) + y(t0)(i3)(j4) + y(t0)(i5)(j4) + y(t0)(i7)(j4) <= 1
 
             Long[] NodeIDs = Network.Nodes.keySet().toArray(new Long[Network.Nodes.size()]);
@@ -529,9 +555,13 @@ public class RoutingProblem_CPLEX {
             for (int TaxiIndex = 0; TaxiIndex < Network.Taxis.size(); TaxiIndex++) {
                 for (int i = 0; i < Network.Nodes.size(); i++) {
                     IloLinearNumExpr ConstraintExpr = CPLEX.linearNumExpr();
-                    Node Node_I = Network.Nodes.get(NodeIDs[i]);
-                    for (int jj = 0; jj < Node_I.AdjcantNodes.size(); jj++) {
-                        int j = Network.Nodes.get(Node_I.AdjcantNodes.get(jj)).Index;
+                    //Node Node_I = Network.Nodes.get(NodeIDs[i]);
+                    // for (Link Link : Node_I.InLinks.values()) {
+                    //   int j = Network.Nodes.get(Link.UpStream).Index;
+                    for (int j = 0; j < NodeIDs.length; j++) {
+                        if (i == j) {
+                            continue;
+                        }
                         IloNumVar Term = null;
                         try {
                             Term = y[TaxiIndex][j][i];
@@ -560,9 +590,15 @@ public class RoutingProblem_CPLEX {
             for (int TaxiIndex = 0; TaxiIndex < Network.Taxis.size(); TaxiIndex++) {
                 for (int i = 0; i < Network.Nodes.size(); i++) {
                     IloLinearNumExpr ConstraintExpr = CPLEX.linearNumExpr();
-                    Node Node_I = Network.Nodes.get(NodeIDs[i]);
-                    for (int jj = 0; jj < Node_I.AdjcantNodes.size(); jj++) {
-                        int j = Network.Nodes.get(Node_I.AdjcantNodes.get(jj)).Index;
+                    //Node Node_I = Network.Nodes.get(NodeIDs[i]);
+                    // for (Link Link : Node_I.InLinks.values()) {
+                    //   int j = Network.Nodes.get(Link.UpStream).Index;
+                    for (int j = 0; j < NodeIDs.length; j++) {
+                        //for (int i = 0; i < Network.Nodes.size(); i++) {
+                        //  IloLinearNumExpr ConstraintExpr = CPLEX.linearNumExpr();
+//                    Node Node_I = Network.Nodes.get(NodeIDs[i]);
+                        //                  for (Link Link : Node_I.OutLinks.values()) {
+                        //                    int j = Network.Nodes.get(Link.DownStream).Index;
                         IloNumVar Term = y[TaxiIndex][i][j];
                         ConstraintExpr.addTerm(Multiplier, Term);
                     }
@@ -607,7 +643,6 @@ public class RoutingProblem_CPLEX {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private final int LARGE_NUMBER = 9999999;
 
     private void SetConstraintSet_12() {
 
@@ -784,7 +819,7 @@ public class RoutingProblem_CPLEX {
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~~~~~~~~~~~~  Solvinbg CPLEX Model Function ~~~~~~~~~~~~~~~~~~~~~~~~~~ ">
 
-    private void SolveProblem() {
+    private boolean SolveProblem() {
 
         try {
             String ProblemModelFileName = String.format("%s\\%s", Network.OutputDirectory, "Model.lp");
@@ -794,15 +829,103 @@ public class RoutingProblem_CPLEX {
                 double ObjectiveValue = CPLEX.getObjValue();
                 System.out.print(String.format("Objective Value = %f", ObjectiveValue));
 
+                int NodesCount = Network.Nodes.size();
+                int PassengersCount = Network.Passengers.size();
+                int TaxisCount = Network.Taxis.size();
+
+
+                return true;
                 // To Extract The Data from the Variables 
                 // String Variable = String.format("y(%d)(%d)(%d)", t, i, j);
                 // int Value = CPLEX.getValue(Variable);
+            } else {
+                System.out.print("Infeasable");
+                return false;
             }
         } catch (Exception Exception) {
             Logger.getLogger(RoutingProblem_CPLEX.class
                     .getName()).log(Level.SEVERE, null, Exception);
+            return false;
         }
+    }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~~~~~~~~~~~~  Solvinbg CPLEX Model Function ~~~~~~~~~~~~~~~~~~~~~~~~~~ ">
+
+    private void Get_x_Variable() {
+        int NodesCount = Network.Nodes.size();
+        int PassengersCount = Network.Passengers.size();
+        int TaxisCount = Network.Taxis.size();
+
+        for (int p = 0; p < PassengersCount; p++) {
+            for (int t = 0; t < TaxisCount; t++) {
+                for (int i = 0; i < NodesCount; i++) {
+                    for (int j = 0; j < NodesCount; j++) {
+                        try {
+                            X_Value[p][t][i][j] = (int) CPLEX.getValue(x[p][t][i][j]);
+                        } catch (Exception ex) {
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void Get_y_Variable() {
+        int NodesCount = Network.Nodes.size();
+        int TaxisCount = Network.Taxis.size();
+
+        for (int t = 0; t < TaxisCount; t++) {
+            for (int i = 0; i < NodesCount; i++) {
+                for (int j = 0; j < NodesCount; j++) {
+                    try {
+                        Y_Value[t][i][j] = (int) CPLEX.getValue(y[t][i][j]);
+                    } catch (Exception ex) {
+
+                    }
+                }
+            }
+        }
+    }
+
+    private void Get_d_Variable() {
+        int TaxisCount = Network.Taxis.size();
+        int PassengersCount = Network.Passengers.size();
+
+        for (int p = 0; p < PassengersCount; p++) {
+            for (int t = 0; t < TaxisCount; t++) {
+
+                try {
+                    D_Value[p][t] = (int) CPLEX.getValue(d[p][t]);
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+    }
+
+    private void Get_u_Variable() {
+        int TaxisCount = Network.Taxis.size();
+        int NodesCount = Network.Nodes.size();
+
+
+        for (int i = 0; i < NodesCount; i++) {
+            for (int t = 0; t < TaxisCount; t++) {
+                try {
+                    U_Value[i][t] = (int) CPLEX.getValue(u[i][t]);
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+    }
+
+    private void ExtractResults() {
+        Get_x_Variable();
+        Get_y_Variable();
+        Get_d_Variable();
+        Get_u_Variable();
     }
     //</editor-fold>
 }

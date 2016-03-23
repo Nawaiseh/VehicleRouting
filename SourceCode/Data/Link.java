@@ -10,7 +10,6 @@ public class Link {
     public long DownStream;
     public int LanesCount = 3;
 
-    public float Distance;
     public float TravelTime;
     public float CurrentSpeed = 60; // 60 Miles Per Hour
 

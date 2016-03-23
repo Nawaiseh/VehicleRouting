@@ -1,8 +1,7 @@
 package Data;
 
-import static Data.ReaderWriter.Reader.MyLogger;
 import UI.UserInterface;
-import UI.Utils.OpenGLUtils.Point3D;
+
 import java.util.Date;
 import java.util.Random;
 import java.util.TreeMap;
@@ -21,6 +20,9 @@ public class Network {
     public TreeMap<Long, Node> Nodes = new TreeMap<>();
     public TreeMap<String, Link> Links = new TreeMap<>();
     public TreeMap<Long, Passenger> Passengers = new TreeMap<>();
+
+    public TreeMap<Long, Long> Origins = new TreeMap<>();
+    public TreeMap<Long, Long> Destinations = new TreeMap<>();
 
     public TreeMap<Long, Long> PickupLocations = new TreeMap<>();
     public TreeMap<Long, Long> DropoffLocations = new TreeMap<>();
@@ -161,15 +163,10 @@ public class Network {
                         Network.Nodes.get(Link1.DownStream).InLinks.put(Link1.ID, Link1);
                         Network.Nodes.get(Link2.DownStream).InLinks.put(Link2.ID, Link2);
 
-                        Point3D P1 = Network.Nodes.get(Link1.UpStream).Location;
-                        Point3D P2 = Network.Nodes.get(Link1.DownStream).Location;
-                        double Delta_X = P1.X - P2.X;
-                        double Delta_Y = P1.Y - P2.Y;
 
-                        Link1.Distance = Link2.Distance = (float) Math.sqrt(Delta_X * Delta_X + Delta_Y * Delta_Y);
                        // Link1.TravelTime = Link2.TravelTime = Link1.Distance / Link1.CurrentSpeed;
-                        
-                     Link2.TravelTime =   Link1.TravelTime = (Link1.Distance / Link1.CurrentSpeed) * 3600f ;
+
+                        Link2.TravelTime = Link1.TravelTime = (Link1.Length / Link1.CurrentSpeed) * 3600f;
 
                         Network.Links.put(Link1.ID, Link1);
                         Network.Links.put(Link2.ID, Link2);
@@ -280,6 +277,10 @@ public class Network {
         CreatePassengers(Network);
         CreateTaxis(Network);
         CreateOnBoardPassengers(Network);
+        for (Passenger Passenger : Network.Passengers.values()) {
+            Network.Origins.put(Passenger.Origin, Passenger.Origin);
+            Network.Destinations.put(Passenger.Destination, Passenger.Destination);
+        }
 
         return Network;
     }

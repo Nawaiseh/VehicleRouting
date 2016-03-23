@@ -1,10 +1,7 @@
 package Engine;
 
-import Data.Label;
-import Data.Link;
-import Data.Network;
-import Data.Node;
-import Data.Route;
+import Data.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -53,7 +50,7 @@ public class ShortestRoute_Thread extends Thread {
                 int PreviousNodeIndex = PreviousNode.Index;
 
                 float TravelTime = Labels[CurrentNodeIndex].TravelTime + Link.TravelTime;
-                float Cost = Labels[CurrentNodeIndex].Cost + (Route.PricePerMile * Link.Distance);
+                float Cost = Labels[CurrentNodeIndex].Cost + (Route.OperationCostPerMile * Link.Length);
 
                 if (Cost < Labels[PreviousNodeIndex].Cost) {
                     Labels[PreviousNodeIndex].TravelTime = TravelTime;
@@ -83,7 +80,7 @@ public class ShortestRoute_Thread extends Thread {
             Route.Origin = Origin.ID;
             Route.Destination = Destination.ID;
 
-            Route.TotalCost += Labels[OriginIndex].Cost;
+            Route.TotalOperationCost += Labels[OriginIndex].Cost;
             Route.TotalTravelTime = Labels[OriginIndex].TravelTime;
 
             Route.Nodes.add(Route.Origin);

@@ -13,14 +13,16 @@ import java.util.ArrayList;
  */
 public class Route {
 
-    public static final float PricePerMile = 0.1f; // 0.1 Dollar Per Mile
-    public static final float OpeningPrice = 2;   // 2 Dollars
+    public static final float PricePerMile = 0.5f; // 0.1 Dollar Per Mile
+    public static final float OperationCostPerMile = 0.1f; // 0.1 Dollar Per Mile
+    public static final float OpeningPrice = 0;   // 2 Dollars
 
     public long Origin;
     public long Destination;
 
     public float TotalDistance = 0;
-    public float TotalCost = OpeningPrice;
+    public float TotalOperationCost;
+    public float TotalRevenue = OpeningPrice;
     public float TotalTravelTime = 0;
 
     public ArrayList<Long> Nodes = new ArrayList();
@@ -39,6 +41,8 @@ public class Route {
                 return false;
             }
             Links.add(ID);
+            TotalRevenue += Network.Links.get(ID).Length * PricePerMile;
+            TotalDistance += Network.Links.get(ID).Length;
         }
         return true;
     }
