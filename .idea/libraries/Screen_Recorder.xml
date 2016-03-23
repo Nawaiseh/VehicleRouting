@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Screen Recorder">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/Screen Recorder/lib/jai_core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Screen Recorder/lib/jmf.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Screen Recorder/MonteMediaCC.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="OpenGL">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/OpenGL/Jogl(x64)/gluegen-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/OpenGL/Jogl(x64)/jogl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

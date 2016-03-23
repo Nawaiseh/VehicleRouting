@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="JRibbon">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/eclipse.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/fest-swing-1.2rc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/flamingo-6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/flamingo-tst.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/forms-1.3.0pre4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/javasvn-0.8.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/Jurassic.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/org.eclipse.swt-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/substance-6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/substance.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/trident-1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/Libraries/JRibbon/fest-swing-1.0b1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

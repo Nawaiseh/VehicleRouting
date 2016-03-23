@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="Excel">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/commons-logging-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/dom4j-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/junit-4.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/poi-3.11-20141221.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/poi-examples-3.11-20141221.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/poi-excelant-3.11-20141221.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/poi-ooxml-3.11-20141221.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/poi-ooxml-schemas-3.11-20141221.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/poi-scratchpad-3.11-20141221.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/Excel/xmlbeans-2.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

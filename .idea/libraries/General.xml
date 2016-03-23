@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="General">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/General/Calendar.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/Charts.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/gnujaxp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/guava-18.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/GUIItems.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/ilf-gpl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/Interface.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/japura-1.14.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/jcalendar-1.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/JTattoo.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/junit.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/looks-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/servlet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/utils4j-0.6.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/General/swingx-all-1.6.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

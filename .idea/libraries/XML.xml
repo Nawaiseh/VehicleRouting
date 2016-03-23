@@ -1,0 +1,30 @@
+<component name="libraryTable">
+  <library name="XML">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/jaxb-impl-2.1.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Xerces-J-bin.2.9.0/xml-apis.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Xerces-J-bin.2.9.0/xercesSamples.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Xerces-J-bin.2.9.0/xercesImpl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Xerces-J-bin.2.9.0/serializer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Xerces-J-bin.2.9.0/resolver.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Woodstox/stax2-api-3.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Woodstox/woodstox-core-asl-4.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Woodstox/woodstox-core-lgpl-4.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/SAX 2.0.2/SAX 2.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/poi-3.8-20120326.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/poi-examples-3.8-20120326.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/poi-excelant-3.8-20120326.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/poi-ooxml-3.8-20120326.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/poi-ooxml-schemas-3.8-20120326.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/poi-scratchpad-3.8-20120326.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/ooxml-lib/dom4j-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/ooxml-lib/stax-api-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/ooxml-lib/xmlbeans-2.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/lib/commons-logging-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/lib/junit-3.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/XML/Jakarta POI 3.8/lib/log4j-1.2.13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

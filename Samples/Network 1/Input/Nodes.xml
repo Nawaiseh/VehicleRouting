@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Nodes>
+	<Node ID="0" X="0" Y="0"/>
+	<Node ID="1" X="1" Y="0"/>
+	<Node ID="2" X="2" Y="0"/>
+	<Node ID="3" X="3" Y="0"/>
+	<Node ID="4" X="4" Y="0"/>
+	<Node ID="5" X="5" Y="0"/>
+	<Node ID="6" X="0" Y="1"/>
+	<Node ID="7" X="1" Y="1"/>
+	<Node ID="8" X="2" Y="1"/>
+	<Node ID="9" X="3" Y="1"/>
+	<Node ID="10" X="4" Y="1"/>
+	<Node ID="11" X="5" Y="1"/>
+	<Node ID="12" X="0" Y="2"/>
+	<Node ID="13" X="1" Y="2"/>
+	<Node ID="14" X="2" Y="2"/>
+	<Node ID="15" X="3" Y="2"/>
+	<Node ID="16" X="4" Y="2"/>
+	<Node ID="17" X="5" Y="2"/>
+	<Node ID="18" X="0" Y="3"/>
+	<Node ID="19" X="1" Y="3"/>
+	<Node ID="20" X="2" Y="3"/>
+	<Node ID="21" X="3" Y="3"/>
+	<Node ID="22" X="4" Y="3"/>
+	<Node ID="23" X="5" Y="3"/>
+	<Node ID="24" X="0" Y="4"/>
+	<Node ID="25" X="1" Y="4"/>
+	<Node ID="26" X="2" Y="4"/>
+	<Node ID="27" X="3" Y="4"/>
+	<Node ID="28" X="4" Y="4"/>
+	<Node ID="29" X="5" Y="4"/>
+	<Node ID="30" X="0" Y="5"/>
+	<Node ID="31" X="1" Y="5"/>
+	<Node ID="32" X="2" Y="5"/>
+	<Node ID="33" X="3" Y="5"/>
+	<Node ID="34" X="4" Y="5"/>
+	<Node ID="35" X="5" Y="5"/>
+	<Node ID="36" X="0" Y="6"/>
+	<Node ID="37" X="1" Y="6"/>
+	<Node ID="38" X="2" Y="6"/>
+	<Node ID="39" X="3" Y="6"/>
+	<Node ID="40" X="4" Y="6"/>
+	<Node ID="41" X="5" Y="6"/>
+
+</Nodes>
