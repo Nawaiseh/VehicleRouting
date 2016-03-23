@@ -41,6 +41,7 @@ public class Route {
                 return false;
             }
             Links.add(ID);
+
             TotalRevenue += Network.Links.get(ID).Length * PricePerMile;
             TotalDistance += Network.Links.get(ID).Length;
         }
