@@ -13,7 +13,7 @@ public class Settings {
     public final static int ColumnCount = 3;
     public final static int PassengersCount = 9;
     public final static int MaxRideDuration = 300;
-    public final static int MinRideDuration = 120;
+    public final static int MinRideDuration = 480;
 
 
     public final static int TaxisCount = 5;

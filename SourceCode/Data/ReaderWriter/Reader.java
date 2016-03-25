@@ -237,6 +237,15 @@ public class Reader {
 
                         int x = 0;
                     }
+
+                    if (!Network.Nodes.get(Link.UpStream).AdjcantNodes.contains(Link.DownStream)) {
+                        Network.Nodes.get(Link.UpStream).AdjcantNodes.add(Link.DownStream);
+                    }
+                    if (!Network.Nodes.get(Link.DownStream).AdjcantNodes.contains(Link.UpStream)) {
+                        Network.Nodes.get(Link.DownStream).AdjcantNodes.add(Link.UpStream);
+                    }
+
+
                     Network.Links.put(LinkID, Link);
                     Network.Links_SortedByIndex.put(Link.Index, Link);
                 }
@@ -287,6 +296,7 @@ public class Reader {
                     Taxi.OnBoard = OnBoard;
                     Taxi.Location = Location;
 
+Network.V1.put(Location, Location);
                     Network.Taxis.put(ID, Taxi);
                     Network.Taxis_SortedByIndex.put(Taxi.Index, Taxi);
                 }
@@ -415,6 +425,7 @@ public class Reader {
                     } else {
                         MyLogger.log(Level.SEVERE, String.format("Duplicate OnBoard Passenger [%d]", OnBoardPassenger.ID));
                     }
+                    Network.Taxis.get(OnBoardPassenger.TaxiID).OnBoard++;
 
                     Network.SeekerPassengers.remove(PassengerID);
                     Network.SeekerPassengers_SortedByIndex.remove(OnBoardPassenger.Index);

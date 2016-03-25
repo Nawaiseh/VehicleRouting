@@ -29,6 +29,8 @@ public class Network {
 
     public TreeMap<Long, Taxi> Taxis = new TreeMap<>();
 
+    public TreeMap<Long, Long> V1 = new TreeMap<>();
+
     public TreeMap<Integer, Node> Nodes_SortedByIndex = new TreeMap<>();
     public TreeMap<Integer, Link> Links_SortedByIndex = new TreeMap<>();
     public TreeMap<Integer, Passenger> Passengers_SortedByIndex = new TreeMap<>();
@@ -264,6 +266,7 @@ public class Network {
             Taxi.Index = TaxiIndex;
             Taxi.Location = Random.nextInt(Network.Nodes.size()) + 1;
 
+            Network.V1.put(Taxi.Location, Taxi.Location);
             Network.Taxis.put(Taxi.ID, Taxi);
             Network.Taxis_SortedByIndex.put(Taxi.Index, Taxi);
 
