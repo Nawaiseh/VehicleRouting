@@ -7,6 +7,7 @@ import Data.ReaderWriter.Reader;
 import Data.Route;
 import Engine.RouteCalculation;
 import Engine.RoutingProblem_CPLEX;
+import Engine.NewSolution_CPLEX;
 import Execution.Master;
 import utils.Sorter;
 
@@ -83,7 +84,8 @@ try {
                 int x=0;
             }
         }
-       RoutingProblem_CPLEX RoutingProblem_CPLEX = new RoutingProblem_CPLEX(Network);
+        RoutingProblem_CPLEX RoutingProblem_CPLEX = new RoutingProblem_CPLEX(Network);
+        //NewSolution_CPLEX NewSolution_CPLEX = new NewSolution_CPLEX(Network);
 
         
 

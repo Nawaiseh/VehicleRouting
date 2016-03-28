@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Taxis>
-	<Taxi ID = "0" Capacity = "5" OnBoard = "1" Location = "32"/>
-	<Taxi ID = "1" Capacity = "5" OnBoard = "2" Location = "9"/>
-	<Taxi ID = "2" Capacity = "5" OnBoard = "1" Location = "19"/>
+	<Taxi ID = "0" Capacity = "5" OnBoard = "0" Location = "32"/>
+
+	<Taxi ID = "1" Capacity = "5" OnBoard = "0" Location = "36"/>
+
+
+	<Taxi ID = "2" Capacity = "5" OnBoard = "0" Location = "5"/>
 </Taxis>

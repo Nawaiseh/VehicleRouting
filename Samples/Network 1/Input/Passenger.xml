@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Passengers>
-	<Passenger ID="0" Origin="7" Destination="22" PickupTime="20" DropoffTime="70" Revenue="0" RideDuration="25" />
-	<Passenger ID="1" Origin="19" Destination="33" PickupTime="30" DropoffTime="60" Revenue="0" RideDuration="45" />
-	<Passenger ID="2" Origin="2" Destination="26" PickupTime="45" DropoffTime="110" Revenue="0" RideDuration="30" />
-	<Passenger ID="3" Origin="10" Destination="12" PickupTime="60" DropoffTime="150" Revenue="0" RideDuration="35" />
+	<Passenger ID="0" Origin="7" Destination="34" PickupTime="20" DropoffTime="300" Revenue="0" RideDuration="800" />
+	<Passenger ID="1" Origin="19" Destination="6" PickupTime="30" DropoffTime="300" Revenue="0" RideDuration="500" />
+	<Passenger ID="2" Origin="17" Destination="4" PickupTime="45" DropoffTime="300" Revenue="0" RideDuration="250" />
+	<Passenger ID="3" Origin="30" Destination="40" PickupTime="60" DropoffTime="700" Revenue="0" RideDuration="400" />
 </Passengers>

@@ -447,8 +447,10 @@ Network.V1.put(Location, Location);
 
 
         for (long PassengerID : Network.SeekerPassengers.keySet()) {
-            Network.PickupLocations.put(Network.Passengers.get(PassengerID).Origin, Network.Passengers.get(PassengerID).Origin);
-            Network.DropoffLocations.put(Network.Passengers.get(PassengerID).Destination, Network.Passengers.get(PassengerID).Destination);
+
+
+            Network.V3.put(Network.Passengers.get(PassengerID).Origin, Network.Passengers.get(PassengerID).Origin);
+            Network.V4.put(Network.Passengers.get(PassengerID).Destination, Network.Passengers.get(PassengerID).Destination);
 
         }
 

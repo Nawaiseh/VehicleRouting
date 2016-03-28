@@ -21,15 +21,18 @@ public class Network {
     public TreeMap<String, Link> Links = new TreeMap<>();
     public TreeMap<Long, Passenger> Passengers = new TreeMap<>();
 
-    public TreeMap<Long, Long> Origins = new TreeMap<>();
+    /*public TreeMap<Long, Long> Origins = new TreeMap<>();
     public TreeMap<Long, Long> Destinations = new TreeMap<>();
 
     public TreeMap<Long, Long> PickupLocations = new TreeMap<>();
-    public TreeMap<Long, Long> DropoffLocations = new TreeMap<>();
+    public TreeMap<Long, Long> DropoffLocations = new TreeMap<>();*/
 
     public TreeMap<Long, Taxi> Taxis = new TreeMap<>();
 
     public TreeMap<Long, Long> V1 = new TreeMap<>();
+    public TreeMap<Long, Long> V2 = new TreeMap<>();
+    public TreeMap<Long, Long> V3 = new TreeMap<>();
+    public TreeMap<Long, Long> V4 = new TreeMap<>();
 
     public TreeMap<Integer, Node> Nodes_SortedByIndex = new TreeMap<>();
     public TreeMap<Integer, Link> Links_SortedByIndex = new TreeMap<>();
@@ -280,9 +283,10 @@ public class Network {
         CreatePassengers(Network);
         CreateTaxis(Network);
         CreateOnBoardPassengers(Network);
-        for (Passenger Passenger : Network.Passengers.values()) {
-            Network.Origins.put(Passenger.Origin, Passenger.Origin);
-            Network.Destinations.put(Passenger.Destination, Passenger.Destination);
+        for (long PassengerID : Network.SeekerPassengers.keySet()) {
+            Network.V3.put(Network.Passengers.get(PassengerID).Origin, Network.Passengers.get(PassengerID).Origin);
+            Network.V4.put(Network.Passengers.get(PassengerID).Destination, Network.Passengers.get(PassengerID).Destination);
+
         }
 
         return Network;
