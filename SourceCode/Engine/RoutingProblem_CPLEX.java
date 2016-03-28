@@ -127,6 +127,7 @@ public class RoutingProblem_CPLEX {
                     U[OriginIndex][DestinationIndex] = 0;
                     continue;
                 }
+                
                 Route = Network.Routes.get(Origin).get(Destination);
                 U[OriginIndex][DestinationIndex] = Route.TotalTravelTime;
             }
