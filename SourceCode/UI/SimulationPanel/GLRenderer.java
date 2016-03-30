@@ -169,9 +169,9 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
                 }
 
                 if (ShowID) {
-                    GL.glColor3f(0.888F, 0.444f, 0.333f);
-                    GL.glRasterPos3d(Location.X, Location.Y, 0.03f);
-                    GLUT.glutBitmapString(GLUT.BITMAP_HELVETICA_18, "" + Node.ID);
+                    GL.glColor3f(0.1F, 0.1f, 1f);
+                    GL.glRasterPos3d(Location.X+0.03, Location.Y+0.03, 0.03f);
+                    GLUT.glutBitmapString(GLUT.BITMAP_TIMES_ROMAN_24, "" + Node.ID);
                 }
             }
         } catch (Exception Exception) {

@@ -80,7 +80,7 @@ public class Network {
 
     private static void CreateNodes(Network Network) {
 
-        long ID = 1;
+        long ID = 0;
         int NodeIndex = 0;
         for (int row = 1; row <= Settings.RowCount; row++) {
             for (int column = 1; column <= Settings.ColumnCount; column++) {
@@ -122,24 +122,25 @@ public class Network {
 
     private static void CreateLinks(Network Network) {
         int LinkIndex = 0;
-        for (int row = 1; row <= Settings.RowCount; row++) {
-            for (int column = 1; column <= Settings.ColumnCount; column++) {
-                long Node1 = Settings.ColumnCount * (row - 1) + column;
+        for (int row = 0; row < Settings.RowCount; row++) {
+            for (int column = 0; column < Settings.ColumnCount; column++) {
+                long Node1 = Settings.ColumnCount * (row) + column;
                 for (int i = row - 1; i <= row + 1; i++) {
-                    if (i <= 0 || i > Settings.RowCount) {
+                    if (i < 0 || i >= Settings.RowCount) {
                         continue;
                     }
-                    for (int j = column - 1; j <= column + 1; j++) {
-                        if (j <= 0 || j > Settings.ColumnCount) {
+                    for (int j = column - 1; j <= column+1; j++) {
+                        if (j < 0 || j >= Settings.ColumnCount) {
                             continue;
                         }
-                        long Node2 = Settings.ColumnCount * (i - 1) + j;
+                        long Node2 = Settings.ColumnCount * (i) + j;
                         if (Node2 == Node1) {
                             continue;
                         }
                         if (i != row && j != column) {
                             continue;
                         }
+
                         Link Link1 = new Link();
                         Link Link2 = new Link();
                         Link1.Index = LinkIndex++;
@@ -150,25 +151,28 @@ public class Network {
                         Link2.DownStream = Node1;
                         Link2.UpStream = Node2;
 
-                        if (!Network.Nodes.get(Link1.UpStream).AdjcantNodes.contains(Node2)) {
-                            Network.Nodes.get(Link1.UpStream).AdjcantNodes.add(Node2);
+                        try {
+                            if (!Network.Nodes.get(Link1.UpStream).AdjcantNodes.contains(Node2)) {
+                                Network.Nodes.get(Link1.UpStream).AdjcantNodes.add(Node2);
+                            }
+                            if (!Network.Nodes.get(Link1.DownStream).AdjcantNodes.contains(Node1)) {
+                                Network.Nodes.get(Link1.DownStream).AdjcantNodes.add(Node1);
+                            }
+
+                            Link1.ID = String.format("%d-%d", Link1.UpStream, Link1.DownStream);
+                            Link2.ID = String.format("%d-%d", Link2.UpStream, Link2.DownStream);
+
+                            Link1.Length = Link2.Length = Settings.DistanceBetweenAdjacentNodes;
+
+                            Network.Nodes.get(Link1.UpStream).OutLinks.put(Link1.ID, Link1);
+                            Network.Nodes.get(Link2.UpStream).OutLinks.put(Link2.ID, Link2);
+
+                            Network.Nodes.get(Link1.DownStream).InLinks.put(Link1.ID, Link1);
+                            Network.Nodes.get(Link2.DownStream).InLinks.put(Link2.ID, Link2);
+
+                        }catch(Exception E){
+                            int x=0;
                         }
-                        if (!Network.Nodes.get(Link1.DownStream).AdjcantNodes.contains(Node1)) {
-                            Network.Nodes.get(Link1.DownStream).AdjcantNodes.add(Node1);
-                        }
-
-                        Link1.ID = String.format("%d-%d", Link1.UpStream, Link1.DownStream);
-                        Link2.ID = String.format("%d-%d", Link2.UpStream, Link2.DownStream);
-
-                        Link1.Length = Link2.Length = Settings.DistanceBetweenAdjacentNodes;
-
-                        Network.Nodes.get(Link1.UpStream).OutLinks.put(Link1.ID, Link1);
-                        Network.Nodes.get(Link2.UpStream).OutLinks.put(Link2.ID, Link2);
-
-                        Network.Nodes.get(Link1.DownStream).InLinks.put(Link1.ID, Link1);
-                        Network.Nodes.get(Link2.DownStream).InLinks.put(Link2.ID, Link2);
-
-
                        // Link1.TravelTime = Link2.TravelTime = Link1.Distance / Link1.CurrentSpeed;
 
                         Link2.TravelTime = Link1.TravelTime = (Link1.Length / Link1.CurrentSpeed) * 3600f;
@@ -280,7 +284,7 @@ public class Network {
         Network Network = new Network(Directory);
         CreateNodes(Network);
         CreateLinks(Network);
-        CreatePassengers(Network);
+      /*  CreatePassengers(Network);
         CreateTaxis(Network);
         CreateOnBoardPassengers(Network);
         for (long PassengerID : Network.SeekerPassengers.keySet()) {
@@ -288,7 +292,7 @@ public class Network {
             Network.V4.put(Network.Passengers.get(PassengerID).Destination, Network.Passengers.get(PassengerID).Destination);
 
         }
-
+*/
         return Network;
     }
 

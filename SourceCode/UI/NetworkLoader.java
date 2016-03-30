@@ -38,10 +38,10 @@ public class NetworkLoader extends Thread {
         Network.Directory = DView.DefualtPath;
         Network.InputDirectory = String.format("%s%s", Network.Directory, "Input");
         Network.OutputDirectory = String.format("%s%s", Network.Directory, "Output");
-        if (Master.ReadInput) {
+       // if (Master.ReadInput) {
             Reader Reader = new Reader(DView, DView.DViewListner.NetworkPath);
             Reader.ParseNetworkData(Network);
-        }
+       // }
         Calendar TimeCalendar = Calendar.getInstance();
         Network.Today = new Date(TimeCalendar.get(Calendar.YEAR) - 1900, TimeCalendar.get(Calendar.MONTH), TimeCalendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         Network.DView = DView;

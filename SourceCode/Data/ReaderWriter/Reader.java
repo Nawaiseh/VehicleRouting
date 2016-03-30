@@ -439,8 +439,8 @@ Network.V1.put(Location, Location);
     //</editor-fold>
     public void ParseNetworkData(Network Network) {
 
-       ParseNodesData(Network);
-         ParseLinksData(Network);
+  //     ParseNodesData(Network);
+    //     ParseLinksData(Network);
         ParseTaxisData(Network);
         ParsePassengersData(Network);
         ParseOnboardPassengersData(Network);

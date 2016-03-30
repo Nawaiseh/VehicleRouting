@@ -9,8 +9,8 @@ public class Settings {
     //<editor-fold defaultstate="collapsed" desc=" ~~~~~~~~~~~~~~~~~~~ Paths   ~~~~~~~~~~~~~~~~~~~">
     public final static String BasePath = String.format("%s\\Samples\\Sample Network", System.getProperty("user.dir"));
 //</editor-fold>
-    public final static int RowCount = 3;
-    public final static int ColumnCount = 3;
+    public final static int RowCount = 7;
+    public final static int ColumnCount = 6;
     public final static int PassengersCount = 9;
     public final static int MaxRideDuration = 300;
     public final static int MinRideDuration = 480;
