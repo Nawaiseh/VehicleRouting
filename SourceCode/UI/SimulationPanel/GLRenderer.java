@@ -5,11 +5,16 @@ import UI.Utils.OpenGLUtils.GLColorD;
 import UI.Utils.OpenGLUtils.OpenGLLink;
 import UI.Utils.OpenGLUtils.Point3D;
 import UI.Utils.OpenGLUtils.Polygon2D;
+
 import java.text.DecimalFormat;
+import java.util.Random;
 import java.util.TreeMap;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import Engine.RoutingProblem_CPLEX;
 import Data.Link;
 
 import Data.Node;
@@ -38,8 +43,19 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
     public TreeMap<Long, Long> SelectedZones = new TreeMap();
     public Point3D SelectedEventLocation = null;
 
+    private Timer Timer = new Timer();
+    private float RefreshRate = 1;
+    private int SelectedPassenger = -1;
+    private int SelectedTaxi = -1;
+
+    public boolean ShowPassengers = false;
+    public boolean ShowTaxis = false;
+
     public GLRenderer(OpenGLSimulationPanel newOpenGLSimulationPanel, Network newNetwork) {
         super(newOpenGLSimulationPanel);
+
+        Timer.schedule(new RemindTask(), 0, 500);
+
         try {
             OpenGLSimulationPanel = newOpenGLSimulationPanel;
             NodeShape.CreateCircle(NodeRadius, NodeShapeSmoothness);
@@ -170,7 +186,7 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
 
                 if (ShowID) {
                     GL.glColor3f(0.1F, 0.1f, 1f);
-                    GL.glRasterPos3d(Location.X+0.03, Location.Y+0.03, 0.03f);
+                    GL.glRasterPos3d(Location.X + 0.03, Location.Y + 0.03, 0.03f);
                     GLUT.glutBitmapString(GLUT.BITMAP_TIMES_ROMAN_24, "" + Node.ID);
                 }
             }
@@ -178,6 +194,7 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
             int h = 3;
         }
     }
+
     DecimalFormat DF = new DecimalFormat("0.00");
     double CutDistance = 0.04;
     GLColorD OtherLinkLineColor = new GLColorD(0.4f, 0.4f, 0.4f, 0.4f);
@@ -215,11 +232,75 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
     }
 
     private void DrawTaxis(GL GL) {
+        Link Link;
+        Point3D UpStream;
+        Point3D DownStream;
+        for (Data.Taxi Taxi : Network.Taxis.values()) {
+            if (SelectedTaxi != Taxi.Index) {
+                //      continue;
+            }
+            GL.glLineWidth(Taxi.LineWidth);
+            GL.glColor3f(Taxi.Color.Red, Taxi.Color.Green, Taxi.Color.Blue);
+            GL.glBegin(GL.GL_LINES);
+            int Order = 0;
+            for (String LinkID : Taxi.PathLinks) {
+                Link = Network.Links.get(LinkID);
+                UpStream = Network.Nodes.get(Link.UpStream).OpenGLLocation;
+                DownStream = Network.Nodes.get(Link.DownStream).OpenGLLocation;
 
+                GL.glVertex3d(UpStream.X, UpStream.Y, UpStream.Z);
+                GL.glVertex3d(DownStream.X, DownStream.Y, DownStream.Z);
+
+            }
+            GL.glEnd();
+
+            for (Long NodeID : Taxi.NodeTimes.keySet()) {
+                UpStream = Network.Nodes.get(NodeID).OpenGLLocation;
+                Order++;
+                try {
+                    GL.glRasterPos3d(UpStream.X + 0.05, UpStream.Y - 0.15, 0.03f);
+                    GLUT.glutBitmapString(GLUT.BITMAP_HELVETICA_12, String.format("T%d_%s @t=%d", Taxi.ID, NodeID, Taxi.NodeTimes.get(NodeID).intValue()));
+                } catch (Exception E) {
+                    int x = 0;
+                }
+            }
+        }
+        GL.glLineWidth(1);
     }
 
     private void DrawPassengers(GL GL) {
 
+        Node Node;
+
+        for (Data.Passenger Passenger : Network.Passengers.values()) {
+            if (SelectedPassenger != Passenger.Index) {
+                //      continue;
+            }
+            GL.glLineWidth(Passenger.LineWidth);
+            GL.glColor3f(Passenger.Color.Red, Passenger.Color.Green, Passenger.Color.Blue);
+            GL.glBegin(GL.GL_LINE_STRIP);
+            int Order = 0;
+            for (Long NodeID : Passenger.PathNodes) {
+                Node = Network.Nodes.get(NodeID);
+                Point3D Location = new Point3D(Node.OpenGLLocation.X, Node.OpenGLLocation.Y, 0);
+                GL.glVertex3d(Location.X, Location.Y, Location.Z);
+
+            }
+            GL.glEnd();
+
+            for (Long NodeID : Passenger.PathNodes) {
+                Order++;
+                Node = Network.Nodes.get(NodeID);
+                Point3D Location = new Point3D(Node.OpenGLLocation.X, Node.OpenGLLocation.Y, 0);
+                try {
+                    GL.glRasterPos3d(Location.X + 0.05, Location.Y - 0.15, 0.03f);
+                    GLUT.glutBitmapString(GLUT.BITMAP_HELVETICA_18, String.format("P%d_%d", Passenger.ID, Order));
+                } catch (Exception E) {
+                    int x = 0;
+                }
+            }
+        }
+        GL.glLineWidth(1);
     }
 
     @Override
@@ -231,9 +312,12 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
 
             DrawAllNodes(GL, true);
             DrawAllLinks(GL, false);
-
-            DrawTaxis(GL);
-            DrawPassengers(GL);
+            if (ShowTaxis) {
+                DrawTaxis(GL);
+            }
+            if (ShowPassengers) {
+                DrawPassengers(GL);
+            }
 
         } catch (Exception Exception) {
 
@@ -241,4 +325,18 @@ public class GLRenderer extends UI.Utils.OpenGLUtils.OpenGLRenderer {
         }
 
     }
+
+    class RemindTask extends TimerTask {
+
+        public void run() {
+            try {
+                if (!Network.Passengers.isEmpty()) {
+                    SelectedPassenger++;
+                    SelectedPassenger = SelectedPassenger % Network.Passengers.size();
+                }
+            } catch (Exception E) {
+            }
+        }
+    }
+
 }

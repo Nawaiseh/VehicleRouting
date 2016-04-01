@@ -174,7 +174,7 @@ public class ProjectBandSet {
                 ActionListener RefreshUpdater = new ActionListener() {
                     @Override
                     public synchronized void actionPerformed(ActionEvent evt) {
-                        if (DView.MainSimulationPanel.NetworkIsPreparedAndLoaded) {
+                        if (DView.MainPassengersView.NetworkIsPreparedAndLoaded) {
                             RefreshTimer.stop();
                             DJRibbon.setSelectedTask(SimulationTaskRibbon);
 

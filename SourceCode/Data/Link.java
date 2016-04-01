@@ -7,7 +7,9 @@ public class Link {
     public float LaneWidth = 0.005f;
     public float Length = 0;
     public long UpStream;
+    public int UpStreamIndex;
     public long DownStream;
+    public int DownStreamIndex;
     public int LanesCount = 3;
 
     public float TravelTime;

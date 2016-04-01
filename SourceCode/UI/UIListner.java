@@ -112,7 +112,7 @@ public class UIListner {
             final TaskRibbon SimulationTaskRibbon = (TaskRibbon) DJRibbon.getTask(0);
 
             ActionListener RefreshUpdater = (ActionEvent evt) -> {
-                if (DView.MainSimulationPanel.NetworkIsPreparedAndLoaded) {
+                if (DView.MainPassengersView.NetworkIsPreparedAndLoaded) {
                     RefreshTimer.stop();
                     DJRibbon.setSelectedTask(SimulationTaskRibbon);
 

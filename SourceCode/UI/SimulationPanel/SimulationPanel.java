@@ -190,7 +190,7 @@ public class SimulationPanel extends OpenGLSimulationPanel {
                 return;
             }
             OpenGLRenderer.SetNetwork(Network);
-            Point3D OpenGLCenter = DView.MainSimulationPanel.GLRenderer.GetOpenGLCenter();
+            Point3D OpenGLCenter = DView.MainPassengersView.GLRenderer.GetOpenGLCenter();
             TreeMap<Long, Node> Nodes = Network.Nodes;
             for (Node Node : Nodes.values()) {
                 Node.OpenGLLocation.X = Node.Location.X - OpenGLCenter.X;

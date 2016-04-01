@@ -295,6 +295,7 @@ public class Reader {
                     Taxi.Capacity = Capacity;
                     Taxi.OnBoard = OnBoard;
                     Taxi.Location = Location;
+                    Taxi.LocationIndex = Network.Nodes.get(Location).Index;
 
 Network.V1.put(Location, Location);
                     Network.Taxis.put(ID, Taxi);
@@ -353,6 +354,10 @@ Network.V1.put(Location, Location);
                     Passenger.Index = PassengerIndex;
                     Passenger.Origin = Origin;
                     Passenger.Destination = Destination;
+
+                    Passenger.OriginIndex = Network.Nodes.get(Origin).Index;
+                    Passenger.Destination = Network.Nodes.get(Destination).Index;
+
                     Passenger.PickupTime = PickupTime;
                     Passenger.DropoffTime = DropoffTime;
                     Passenger.Revenue = Revenue;
@@ -409,6 +414,8 @@ Network.V1.put(Location, Location);
                         int x = 0;
                     }
                     OnBoardPassenger.TaxiID = TaxiID;
+
+                    OnBoardPassenger.TaxiIndex = Network.Taxis.get(TaxiID).Index;
 
                     Network.OnBoardPassengers_SortedByPassengerID.put(PassengerID, OnBoardPassenger);
                     Network.OnBoardPassengers_SortedByPassengerIndex.put(OnBoardPassenger.Index, OnBoardPassenger);

@@ -62,6 +62,7 @@ public class OpenGLRenderer implements GLEventListener {
     protected Point3D MapP1 = new Point3D();
     protected Point3D MapP2 = new Point3D();
     public String[] HightedItemKeys = {"", "", ""};
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    Constructor   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
 

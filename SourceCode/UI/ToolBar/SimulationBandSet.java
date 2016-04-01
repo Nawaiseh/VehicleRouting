@@ -598,9 +598,9 @@ public class SimulationBandSet {
         private synchronized void SelectFacility() {
             ClearSelection();
 //            DView.FinalNetwork = DView.MainSimulationPanel.Network;
-            DView.MainSimulationPanel.Network.DView = DView;
+            DView.MainPassengersView.Network.DView = DView;
             DView.FinalNetwork.DView = DView;
-            Writer Writer = new Writer(DView.MainSimulationPanel.Network.Directory);
+            Writer Writer = new Writer(DView.MainPassengersView.Network.Directory);
             // Writer.WriteNetworkData(DView.MainSimulationPanel.Network);
             Writer.WriteNetworkData(DView.FinalNetwork);
 

@@ -112,7 +112,7 @@ public class RibbonTaskBar extends Container {
     private synchronized void OpenProject() {
         //  DView.DViewListner.LoadProject();
         //  DView.getRibbon().setSelectedTask(DView.getRibbon().getTask(1));
-        Network Network = DView.MainSimulationPanel.Network;
+        Network Network = DView.MainPassengersView.Network;
         Writer Writer = new Writer(Network.Directory);
         Writer.WriteNetworkData(Network);
     }
@@ -120,7 +120,7 @@ public class RibbonTaskBar extends Container {
     private synchronized void OpenProjectAndRun() {
         //  DView.DViewListner.LoadProject();
 
-        Network Network = DView.MainSimulationPanel.Network;
+        Network Network = DView.MainPassengersView.Network;
         Writer Writer = new Writer(Network.Directory);
         Writer.WriteNetworkData(Network);
     }

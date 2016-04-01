@@ -151,6 +151,13 @@ public class Network {
                         Link2.DownStream = Node1;
                         Link2.UpStream = Node2;
 
+
+                        Link1.UpStreamIndex = Network.Nodes.get(Link1.UpStream).Index;
+                        Link1.DownStreamIndex = Network.Nodes.get(Link1.DownStream).Index;
+
+                        Link2.UpStreamIndex = Network.Nodes.get(Link2.UpStream).Index;
+                        Link2.DownStreamIndex = Network.Nodes.get(Link2.DownStream).Index;
+
                         try {
                             if (!Network.Nodes.get(Link1.UpStream).AdjcantNodes.contains(Node2)) {
                                 Network.Nodes.get(Link1.UpStream).AdjcantNodes.add(Node2);

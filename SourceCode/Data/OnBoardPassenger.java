@@ -7,6 +7,7 @@ package Data;
 public class OnBoardPassenger extends Passenger {
 
     public long TaxiID;
+    public int TaxiIndex;
 
     public OnBoardPassenger() {
         super();

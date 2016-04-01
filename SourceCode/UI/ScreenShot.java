@@ -22,7 +22,7 @@ public class ScreenShot {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public ScreenShot(UserInterface directView) throws Exception {
         this.myDIRECTView = directView;
-        DSystem = myDIRECTView.MainSimulationPanel.DSystem;
+        DSystem = myDIRECTView.MainPassengersView.DSystem;
 
         // a waiting period and a file name
         counter++;

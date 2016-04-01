@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Route {
 
-    public static final float PricePerMile = 0.5f; // 0.1 Dollar Per Mile
+    public static final float PricePerMile = 1f; // 0.1 Dollar Per Mile
     public static final float OperationCostPerMile = 0.1f; // 0.1 Dollar Per Mile
     public static final float OpeningPrice = 0;   // 2 Dollars
 

@@ -102,15 +102,15 @@ public class OpenGLSimulationPanel extends javax.swing.JPanel {
     }
 
     private void PostInitComponents() {
-          MouseLocationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        MouseLocationPanel.setOpaque(false);
-        Container.add(MouseLocationPanel);
-        MouseLocationPanel.setBounds(10, 290, 420, 50);
+//          MouseLocationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+//        MouseLocationPanel.setOpaque(false);
+//        Container.add(MouseLocationPanel);
+//        MouseLocationPanel.setBounds(10, 290, 420, 50);
 
-        Clock.setMinimumSize(new java.awt.Dimension(0, 0));
-        Clock.setPreferredSize(new java.awt.Dimension(200, 85));
-        Container.add(Clock);
-        Clock.setBounds(320, 20, 200, 85);
+//        Clock.setMinimumSize(new java.awt.Dimension(0, 0));
+//        Clock.setPreferredSize(new java.awt.Dimension(200, 85));
+//        Container.add(Clock);
+//        Clock.setBounds(320, 20, 200, 85);
 
         OpenGLPanel.addComponentListener(ComponentListener);
         //Dimension ScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -124,11 +124,11 @@ public class OpenGLSimulationPanel extends javax.swing.JPanel {
         String[] Days = new String[]{"SUN  ", "MON  ", "TUE  ", "WED  ", "THU  ", "FRI  ", "SAT  "};
         String[] Months = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
 
-        Calendar TimeCalendar = Calendar.getInstance();
-        DecimalFormat DF = new DecimalFormat("00");
-        String Date = String.format("  %s %s", Months[TimeCalendar.get(Calendar.MONTH)], DF.format(TimeCalendar.get(Calendar.DAY_OF_MONTH)));
-        Clock.SetDay(Days[TimeCalendar.get(Calendar.DAY_OF_WEEK) - 1].toUpperCase());
-        Clock.SetDate(Date);
+//        Calendar TimeCalendar = Calendar.getInstance();
+//        DecimalFormat DF = new DecimalFormat("00");
+//        String Date = String.format("  %s %s", Months[TimeCalendar.get(Calendar.MONTH)], DF.format(TimeCalendar.get(Calendar.DAY_OF_MONTH)));
+//        Clock.SetDay(Days[TimeCalendar.get(Calendar.DAY_OF_WEEK) - 1].toUpperCase());
+//        Clock.SetDate(Date);
 
     }
 
@@ -241,30 +241,30 @@ public class OpenGLSimulationPanel extends javax.swing.JPanel {
     public ComponentListener ComponentListener = new ComponentListener() {
         @Override
         public void componentResized(ComponentEvent e) {
-            try {
-                Dimension Size = e.getComponent().getSize();
-                Toolkit.getDefaultToolkit().getScreenSize();
-                OpenGLPanel.setSize(Size);
-
-                Rectangle MouseLocationBounds = MouseLocationPanel.getBounds();
-                Rectangle ClockBounds = Clock.getBounds();
-
-                MouseLocationBounds.width = (MouseLocationPanel.IsShrinked) ? MouseLocationPanel.ShrinkSize.width : MouseLocationPanel.ExpandSize.width;
-                ClockBounds.width = (Clock.DigitalClock.IsShrinked) ? Clock.DigitalClock.ShrinkSize.width : Clock.DigitalClock.ExpandSize.width;
-
-                MouseLocationBounds.height = (MouseLocationPanel.IsShrinked) ? MouseLocationPanel.ShrinkSize.height : MouseLocationPanel.ExpandSize.height;
-                ClockBounds.height = (Clock.DigitalClock.IsShrinked) ? Clock.DigitalClock.ShrinkSize.height : Clock.DigitalClock.ExpandSize.height;
-
-                MouseLocationBounds.x = Size.width - (RightGap + LeftGap) - MouseLocationBounds.width - 30;
-                ClockBounds.x = Size.width - (RightGap + LeftGap) - ClockBounds.width - 30;
-
-                MouseLocationBounds.y = Size.height - MouseLocationBounds.height - 20;
-                ClockBounds.y = MouseLocationBounds.y - ClockBounds.height - 10;
-
-                MouseLocationPanel.setBounds(MouseLocationBounds);
-                Clock.setBounds(ClockBounds);
-            } catch (Exception Exception) {
-            }
+//            try {
+//                Dimension Size = e.getComponent().getSize();
+//                Toolkit.getDefaultToolkit().getScreenSize();
+//                OpenGLPanel.setSize(Size);
+//
+//                Rectangle MouseLocationBounds = MouseLocationPanel.getBounds();
+//                Rectangle ClockBounds = Clock.getBounds();
+//
+//                MouseLocationBounds.width = (MouseLocationPanel.IsShrinked) ? MouseLocationPanel.ShrinkSize.width : MouseLocationPanel.ExpandSize.width;
+//                ClockBounds.width = (Clock.DigitalClock.IsShrinked) ? Clock.DigitalClock.ShrinkSize.width : Clock.DigitalClock.ExpandSize.width;
+//
+//                MouseLocationBounds.height = (MouseLocationPanel.IsShrinked) ? MouseLocationPanel.ShrinkSize.height : MouseLocationPanel.ExpandSize.height;
+//                ClockBounds.height = (Clock.DigitalClock.IsShrinked) ? Clock.DigitalClock.ShrinkSize.height : Clock.DigitalClock.ExpandSize.height;
+//
+//                MouseLocationBounds.x = Size.width - (RightGap + LeftGap) - MouseLocationBounds.width - 30;
+//                ClockBounds.x = Size.width - (RightGap + LeftGap) - ClockBounds.width - 30;
+//
+//                MouseLocationBounds.y = Size.height - MouseLocationBounds.height - 20;
+//                ClockBounds.y = MouseLocationBounds.y - ClockBounds.height - 10;
+//
+//                MouseLocationPanel.setBounds(MouseLocationBounds);
+//                Clock.setBounds(ClockBounds);
+//            } catch (Exception Exception) {
+//            }
         }
 
         @Override

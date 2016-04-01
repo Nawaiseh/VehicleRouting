@@ -27,7 +27,7 @@ import Data.Network;
 @SuppressWarnings({"SleepWhileHoldingLock", "SynchronizeOnNonFinalField", "NestedSynchronizedStatement"})
 public final class UserInterface {
 
-    public static String BasePath = System.getProperty("user.dir").replace("/","\\");
+    public static String BasePath = System.getProperty("user.dir").replace("/", "\\");
     public String[] DefualtPaths = new String[]{
         String.format("%s\\Samples\\Network 1\\", BasePath), // 0
         String.format("%s\\Samples\\Network 2\\", BasePath), // 1
@@ -37,9 +37,10 @@ public final class UserInterface {
     private static final Logger MyLogger = Logger.getLogger(UserInterface.class.getName());
     //<editor-fold defaultstate="collapsed" desc="Gui Variables">
 
-    public SimulationPanel FocusedPanel = null;
+    public SimulationPanel PassengersView = null;
+    public SimulationPanel TaxisView = null;
     public RootWindow rootWindow;  // Main Window
-    public int numberOfStaticWindows = 7;
+    public int numberOfStaticWindows = 9;
     public int MaximumNumberOfPredictionViews = 20;
     private DynamicView[] views = new DynamicView[numberOfStaticWindows + MaximumNumberOfPredictionViews]; // 20-7 = 13 Available for creating prediction pages
     //private View[] views = new View[numberOfStaticWindows + numberOfDynamicWindows]; // 20-7 = 13 Available for creating prediction pages
@@ -52,11 +53,14 @@ public final class UserInterface {
     // --------------   Logger Panel Components -------------------
     private SplitWindow loggerPanel = null;
     private TabWindow SimulationLoggerTabWindow = null;
-    private DynamicView MainSimulationLoggerView = null;
+    private DynamicView PassengersLoggerView = null;
+    private DynamicView TaxisLoggerView = null;
+
     // --------------   Simulation Components -------------------
     public TabWindow SimulationTabWindow = null;
     private SplitWindow SimulationPanelSplitWindow = null;
-    public DynamicView MainSimulationView = null;
+    public DynamicView PassengersDynamicView = null;
+    public DynamicView TaxisDynamicView = null;
     // --------------   ResponsePlansPanel Components -------------------
     private View LastView = null;
     TreeMap<Integer, DynamicView> AvailablePredictionViews = new TreeMap<Integer, DynamicView>();
@@ -70,8 +74,8 @@ public final class UserInterface {
 
     public void ShowPage(SimulationPanel SimulationPanel) {
         View View = null;
-        if (this.MainSimulationPanel == SimulationPanel) {
-            View = this.MainSimulationView;
+        if (this.MainPassengersView == SimulationPanel) {
+            View = this.PassengersDynamicView;
 
         }
         if (View != null && View.getRootWindow() != null) {
@@ -82,11 +86,11 @@ public final class UserInterface {
             } catch (Exception ex) {
             }
         }
-        MainSimulationView.restoreFocus();
+        PassengersDynamicView.restoreFocus();
     }
 
     public synchronized SimulationPanel GetMainSimulationPanel() {
-        return MainSimulationPanel;
+        return MainPassengersView;
     }
 
     public synchronized void ShowView(final View View) {
@@ -177,7 +181,8 @@ public final class UserInterface {
     public double SEARCH_ZOOM_FACTOR = 3;
     public String DefualtPath = DefualtPaths[NetworkIndex];
     int currentSimulationTime = 0;
-    public SimulationPanel MainSimulationPanel = new SimulationPanel(this, this.myNetwork);
+    public SimulationPanel MainPassengersView = new SimulationPanel(this, this.myNetwork);
+    public SimulationPanel MainTaxisView = new SimulationPanel(this, this.myNetwork);
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="GUI Methods">
 
@@ -194,11 +199,14 @@ public final class UserInterface {
     public UserInterface() {
 
         DViewListner = new UIListner(this);
-        ImageIcon ImageIcon = UIListner.createResizedIcon(new ImageIcon(getClass().getResource("/Resources/Estimation.png")).getImage(), MainSimulationPanel.WaterMarkSize);
+        ImageIcon ImageIcon = UIListner.createResizedIcon(new ImageIcon(getClass().getResource("/Resources/Estimation.png")).getImage(), MainPassengersView.WaterMarkSize);
 
         createRootWindow();
-        MainSimulationPanel.setName("Network Estimate");
-        MainSimulationPanel.View = MainSimulationView;
+        MainPassengersView.setName("Passengers Routes");
+        MainPassengersView.View = PassengersDynamicView;
+
+        MainTaxisView.setName("Taxis Routes");
+        MainTaxisView.View = TaxisDynamicView;
 
         setDefaultLayout();
 
@@ -215,11 +223,13 @@ public final class UserInterface {
 //        MainSimulationPanel.setBounds(1, 1, FrameBounds.width - WidthGap, FrameBounds.height - HeightGap);
 //        MainSimulationPanel.SetDefaultLayout(FrameBounds);
 //        PeriodicPredictionPanel.SetDefaultLayout(FrameBounds);
-        FocusedPanel = MainSimulationPanel;
+        PassengersView = MainPassengersView;
+        
+         TaxisView = MainTaxisView;
     }
 
     public synchronized JLabel getMouseLocation() {
-        return this.MainSimulationPanel.GetMouseLocation();
+        return this.MainPassengersView.GetMouseLocation();
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Interface Methods : Not related to DIRECT Engine">
@@ -247,20 +257,24 @@ public final class UserInterface {
         ImageIcon Icon = getResizableIconFromResource("/Resources/RibbonBands/SimulationBand/Network.png", new Dimension(30, 15));
         views[0] = Overview = new DynamicView("Network", Icon, OverViewTaskPane);
         Icon = getResizableIconFromResource("/Resources/RibbonBands/SimulationBand/Estimate.png", new Dimension(30, 15));
-        views[1] = MainSimulationView = new DynamicView("Network State Estimation", Icon, MainSimulationPanel);  // Main Simulation Panel
-        views[2] = MainSimulationLoggerView = new DynamicView("Network State Estimation Log Area", Icon, MainSimulationPanel.GetLogArea()); // Main Simulation Logger Panel
+        views[1] = PassengersDynamicView = new DynamicView("Passengers Routes", Icon, MainPassengersView);  // Main Simulation Panel
+        views[2] = PassengersLoggerView = new DynamicView("Passengers Routes Log Area", Icon, MainPassengersView.GetLogArea()); // Main Simulation Logger Panel
+
+        views[3] = TaxisDynamicView = new DynamicView("Taxis Routes", Icon, MainTaxisView);  // Main Simulation Panel
+        views[4] = TaxisLoggerView = new DynamicView("Taxis Routes Log Area", Icon, MainTaxisView.GetLogArea()); // Main Simulation Logger Panel
 
         Icon = getResizableIconFromResource("/Resources/RibbonBands/SimulationBand/Plan.png", new Dimension(30, 15));
-        views[3] = new DynamicView("Select", Icon, new JPanel());
+        views[5] = new DynamicView("Select", Icon, new JPanel());
         Icon = getResizableIconFromResource("/Resources/RibbonBands/SimulationBand/PeriodicPrediction.png", new Dimension(30, 15));
-        views[4] = new DynamicView("Periodic Prediction", Icon, new JPanel());  // Main Simulation Panel
-        views[5] = new DynamicView("Periodic Prediction Log Area", Icon, new JPanel()); // Main Simulation Logger Panel
+        views[6] = new DynamicView("Periodic Prediction", Icon, new JPanel());  // Main Simulation Panel
+        views[7] = new DynamicView("Periodic Prediction Log Area", Icon, new JPanel()); // Main Simulation Logger Panel
         Icon = getResizableIconFromResource("/Resources/RibbonBands/ToolsBand/DynamicPricing.png", new Dimension(30, 15));
 
         Icon = getResizableIconFromResource("/Resources/RibbonBands/SimulationBand/Estimate.png", new Dimension(30, 15));
-        views[6] = new DynamicView("Real Time", Icon, new JPanel()); // Main Simulation Logger Panel
+        views[8] = new DynamicView("Real Time", Icon, new JPanel()); // Main Simulation Logger Panel
 
-        MainSimulationView.isfocused = true;
+        PassengersDynamicView.isfocused = true;
+        TaxisDynamicView.isfocused = true;
         // The mixed view map makes it easy to mix static and dynamic views inside the same root window
 
         rootWindow = DockingUtil.createRootWindow(viewMap, null, true);
@@ -272,11 +286,11 @@ public final class UserInterface {
 
     private synchronized void createSimulationTabWindow() {
         DockingWindow[] mainViews = new View[5];
-        mainViews[0] = views[3];
-        mainViews[1] = MainSimulationView;
-        mainViews[2] = views[4];
-        mainViews[3] = views[5];
-        mainViews[4] = views[6];
+        mainViews[0] = views[5];
+        mainViews[1] = PassengersDynamicView;
+        mainViews[2] = views[6];
+        mainViews[3] = views[7];
+        mainViews[4] = views[8];
         SimulationTabWindow = new TabWindow(mainViews);
     }
 
@@ -285,16 +299,17 @@ public final class UserInterface {
         //  leftPanel = new SplitWindow(false, 0.51f, new TabWindow(new View[]{Overview}), Listview);
 //        rightPanel = new SplitWindow(false, 0.4f, new TabWindow(new View[]{ModalSplitView}), new SplitWindow(false, 0.5f, new TabWindow(new View[]{SpeedProfileView}), VehicleCountView));
         createSimulationTabWindow();
-        rootWindow.setWindow(new SplitWindow(true, 0.138f, new TabWindow(new View[]{Overview}), new SplitWindow(true, 0.60f, SimulationTabWindow, EditorView)));
+        rootWindow.setWindow(new SplitWindow(true, 0.138f, new TabWindow(new View[]{Overview}), new SplitWindow(true, 0.60f, new SplitWindow(true, 0.50f, SimulationTabWindow, TaxisDynamicView), EditorView)));
+        views[0].close();  // Overview.close();
+        views[2].close();  //PassengersLoggerView.close();
+        views[4].close(); //TaxisLoggerView.close();
 
-        views[3].close();
-        MainSimulationLoggerView.close();
-        views[4].close();
+        views[5].close();
         //PeriodicPredictionView.close();
         EditorView.close();
-        views[5].close();
         views[6].close();
-        Overview.close();
+        views[7].close();
+        views[8].close();
 
     }
     private JFrame frame = new JFrame(UserInterface.APP_NAME + " " + UserInterface.APP_VERSION);
@@ -325,7 +340,6 @@ public final class UserInterface {
         JRibbonFrame.setFocusable(true);
         JRibbonFrame.setPreferredSize(new Dimension(1500, 700));
         JRibbonFrame.setSize(new Dimension(1500, 700));
-        
 
         SetActionMap();
 
@@ -334,8 +348,8 @@ public final class UserInterface {
         } else if (Master.AutomatedOpenWithoutRun) {
             DViewListner.OpenProjectWithoutRun();
         }
-         ShowOnScreen(1, JRibbonFrame);
-         JRibbonFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ShowOnScreen(1, JRibbonFrame);
+        JRibbonFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public static void ShowOnScreen(int Screen, JFrame JFrame) {
